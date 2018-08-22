@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Zig_Emi::emi" title="Emi" module="Zig_Emi" sortOrder="51" resource="Zigg_Emi::emi"/>
+        
+        <add id="Zigg_Emi::config_emi" title="Configuration" module="Zig_Emi" sortOrder="10" parent="Zig_Emi::emi" action="adminhtml/system_config/edit/section/helloworldd" resource="Zig_Emi::emi_configuration"/>
+
+        <add id="Zigg_Emi::orders_emi" title="Partially Paid Orders" module="Zig_Emi" sortOrder="99" parent="Zig_Emi::emi" action="zig_emi/partial/index" resource="Zig_Emi::emi"/>
+    </menu>
+</config>

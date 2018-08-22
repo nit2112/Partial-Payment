@@ -1,0 +1,110 @@
+<?php
+namespace Zig\Deposit\Setup;
+
+class InstallSchema implements \Magento\Framework\Setup\InstallSchemaInterface
+{
+
+	public function install(\Magento\Framework\Setup\SchemaSetupInterface $setup, \Magento\Framework\Setup\ModuleContextInterface $context)
+	{
+		$installer = $setup;
+		$installer->startSetup();
+		if (!$installer->tableExists('partial_payment_installment')) {
+			
+			$table = $installer->getConnection()->newTable(
+				$installer->getTable('partial_payment_installment')
+			)
+			->addColumn(
+					'installment_id',
+					\Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+					null,
+					[
+						'identity' => true,
+						'nullable' => false,
+						'primary'  => true,
+						'unsigned' => true,
+					],
+					'Installment id'
+				)
+				->addColumn(
+					'partial_payment_id',
+					\Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+					20,
+					[
+					'nullable' => false,
+					'unsigned' => true,
+					],
+					'partial payment id'
+				)
+				->addColumn(
+					'installment_amount',
+					\Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
+					[12,4],
+					[
+						'nullable' => false
+					],
+					'installment amount'
+				)
+				->addColumn(
+					'installment_due_date',
+					\Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+					null,
+					[
+						'nullable' => false,
+					],
+					'installment due date'
+				)
+				->addColumn(
+					'installment_paid_date',
+					\Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+					null,
+					[
+						'nullable' => false,
+					],
+					'installment paid date'
+				)
+				->addColumn(
+					'installment_status',
+					\Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+					25,
+					[
+						'nullable' => false,
+						'default' => 'Remaining',
+					],
+					'installment status'
+				)
+				->addColumn(
+					'payment_method',
+					\Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+					200,
+					[
+						'default' => null
+					],
+					'payment method'
+				)
+				->addColumn(
+					'txn_id',
+					\Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+					50,
+					[
+					  	'default' => null
+					],
+					'txn id'
+				)
+				->addColumn(
+					'installment_reminder_email',
+					\Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+					10,
+					[
+						'nullable' => false,
+					],
+					'installment reminder email'
+				)
+				->setComment('Installment');
+			$installer->getConnection()->createTable($table);
+
+
+		}
+		$installer->endSetup();
+	}
+}
+

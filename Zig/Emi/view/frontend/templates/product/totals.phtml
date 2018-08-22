@@ -1,0 +1,47 @@
+<?php
+/*
+*
+*/
+?>
+
+<!-- <table class="data table totals">
+        <tbody>
+
+		<tr class="totals sub emi">
+		    <th  class="mark" scope="row">Paid:</th>
+		    <td class="amount">
+		        <span class="price"><?php //echo "$123" ?></span>
+		    </td>
+		</tr>
+
+		</tbody>
+</table> -->
+<?php 
+	$totals = $block->getOrder();
+
+	$percent = $block->getPayment();
+
+	$payingNow = ($totals * $percent)/100; 
+
+	$remainingAmount = $totals - $payingNow; 
+	  
+
+ ?> 
+ <table>
+<tr class="totals sub emi">
+    <th class="mark" colspan="1" scope="row">Paying Now</th>
+    <td class="amount" >
+        <span class="price" ><?php echo $payingNow; ?></span>
+    </td>
+</tr> <br>
+
+<tr class="totals sub emi">
+    <th class="mark" colspan="1" scope="row">Remaining Amount</th>
+    <td class="amount" >
+        <span class="price" ><?php echo $remainingAmount; ?></span>
+    </td>
+</tr>
+
+</table>
+
+

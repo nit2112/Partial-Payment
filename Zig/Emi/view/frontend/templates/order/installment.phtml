@@ -1,0 +1,78 @@
+<?php 
+	$remainingAmount = $block->getRemaining();
+    $remainingInstallment = (int)$block->installmentDetail();
+    // $remaining_installment = (int)$block->installmentDetail();
+    // die(var_dump($remaining_installment));
+	// $installment=0;
+    // if($remaining_installment>0){
+    if($remainingInstallment !=0 ){
+     $installment = ($remainingAmount)/$remainingInstallment;
+    } else {
+        $installment=0;
+    }
+     $sec = $block->installmentDueDate();
+    // } 
+
+	$method = $block->activePayment();
+    $order = $block->getOrderDetail();
+    $order_id = $order->getEntityId();
+
+    
+
+?>
+
+ <div class="box box-order-billing-method">
+            <strong class="box-title">
+                <span><?php /* @escapeNotVerified */ echo __('Installment ') ?></span>
+            </strong>
+            <div class="box-content">
+            	<table>
+            	<?php
+					for($i=1;$i<=$remainingInstallment;$i++){  ?>
+                    <?php $date_in = strtotime(date("Y-m-d", strtotime($sec)) . " +".$i." month");
+                    $date = date("Y-m-d H:i", $date_in) ?>
+					<tr>
+					<td> <p><?php echo $i; ?>st installment</p></td>
+                    <td>Due-Date: <?php echo $date; ?></td>
+                    <td><p><?php echo $installment; ?></td>
+                    <td> <a href="#" id="pay-emi" >Pay</a></td>
+				</tr>
+				<?php	}   
+				?>    
+
+				</table>        
+            </div>
+</div>
+
+
+
+
+
+
+<!-- paid start -->
+
+    <div class="payment-method _active" >
+    <div class="payment-method-title field choice">
+        <input type="radio" name="payment[method]" class="radio"  id="testpayment" value="testpayment">
+        <label  class="label" for="testpayment"><span >Check / Money order</span></label>
+    </div>
+
+    <form id="partial-payment"
+              action="<?php /* @escapeNotVerified */ echo $block->getUrl('emi/partial/installment') ?>"
+              method="post">
+
+    <div class="payment-method-content">
+        <div class="actions-toolbar">
+            <div class="primary">
+            <input type="hidden" value="<?php echo $installment; ?>" name="installment" />
+            <input type="hidden" value="<?php echo $order->getIncrementId(); ?>" name="order_id" />
+            <input type="hidden" value="<?php echo $order->getEntityId(); ?>" name="order_no" />
+                <button class="action primary checkout" type="submit"  title="Place Order">
+                    <span data-bind="i18n: 'Pay Installment'"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+    </form>
+</div>
+
